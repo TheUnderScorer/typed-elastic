@@ -12,6 +12,9 @@ jobs:
       - name: Lint
         run: |
           npm run lint
+      - name: Docker
+        run: |
+          docker-compose up -d
       - name: Run tests
         run: |
           npm run test:ci

@@ -1,0 +1,8 @@
+services/security/plop-templates
+services/scheduler/plop-templates
+plop-templates
+services/**/router.ts
+services/**/container.ts
+shared/service-template/**
+services/app/src/graphql/types/index.ts
+servics/security/*

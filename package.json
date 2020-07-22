@@ -1,0 +1,64 @@
+{
+  "name": "typed-elastic",
+  "version": "0.0.1",
+  "description": "",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "author": "Przemysław Żydek <przemyslawzydek@gmail.com>",
+  "scripts": {
+    "test": "jest --runInBand",
+    "test:ci": "jest --runInBand --ci",
+    "lint": "eslint -c ./eslint.json --ext .ts ./",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/npm": "^7.0.5",
+    "@types/jest": "^26.0.5",
+    "@typescript-eslint/eslint-plugin": "3.7.0",
+    "@typescript-eslint/parser": "^3.7.0",
+    "eslint": "7.5.0",
+    "eslint-config-airbnb-typescript": "9.0.0",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-plugin-import": "2.20.2",
+    "eslint-plugin-no-only-tests": "^2.4.0",
+    "eslint-plugin-prettier": "3.1.4",
+    "eslint-plugin-unicorn": "21.0.0",
+    "jest": "26.1.0",
+    "prettier": "2.0.5",
+    "ts-jest": "^26.1.3",
+    "typescript": "3.9.7"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testMatch": [
+      "**/*.test.ts?(x)"
+    ]
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogFile": "CHANGELOG.md"
+        }
+      ],
+      "@semantic-release/npm",
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "CHANGELOG.md",
+            "package.json",
+            "package-lock.json"
+          ]
+        }
+      ]
+    ]
+  },
+  "keywords": [],
+  "license": "ISC"
+}

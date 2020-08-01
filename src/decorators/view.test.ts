@@ -1,16 +1,16 @@
 import { View } from './view';
-import { entityMetadataStore } from '../metadata/entityMetadataStore';
+import { viewMetadataStore } from '../metadata/viewMetadataStore';
 
 describe('View decorator', () => {
   beforeEach(() => {
-    entityMetadataStore.clear();
+    viewMetadataStore.clear();
   });
 
   it('should save class metadata to store', () => {
     @View()
     class Test {}
 
-    const entity = entityMetadataStore.get(Test)!;
+    const entity = viewMetadataStore.get(Test)!;
     expect(entity.index).toEqual('Test');
     expect(entity.constructor).toEqual(Test);
   });
@@ -21,7 +21,7 @@ describe('View decorator', () => {
     })
     class Test {}
 
-    const entity = entityMetadataStore.get(Test)!;
+    const entity = viewMetadataStore.get(Test)!;
     expect(entity.index).toEqual('TestIndex');
     expect(entity.constructor).toEqual(Test);
   });

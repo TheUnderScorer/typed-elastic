@@ -2,6 +2,7 @@ import { Query, SearchParams, SearchResults } from './query';
 import { OrderParams } from './sort';
 import { Aggs } from './aggregation';
 import { Maybe } from '../../common/types';
+import { ViewMetadata } from '../../metadata/typings/viewMetadata';
 
 export type DataType =
   | 'text'
@@ -67,9 +68,7 @@ export type ViewMapping<Entity extends object = object> = {
   properties: ViewProperties<Entity>;
 };
 
-export type ViewConfig<Value extends object> = {
-  index: string;
-  waitForRefresh?: boolean;
+export interface ViewConfig<Value extends object> extends Omit<ViewMetadata<Value>, 'constructor'> {
   mappings: ViewMapping<Value>;
   settings?: {
     analysis?: {
@@ -79,7 +78,7 @@ export type ViewConfig<Value extends object> = {
     };
     [key: string]: any;
   };
-};
+}
 
 export interface SearchByParams extends SearchParams {
   query?: Query;

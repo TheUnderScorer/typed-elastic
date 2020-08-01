@@ -2,13 +2,14 @@ import { FullyDefinedView } from '../metadata/typings/viewMetadata';
 import { Client } from '@elastic/elasticsearch';
 import { Logger } from '../logger/types';
 import { ViewConfig } from '../elasticSearch/typings/view';
-import { ElasticRepository } from '../elasticSearch/elasticRepository/ElasticRepository';
+import { ElasticRepository } from '..';
 import { fieldsToProperties } from './fieldsToProperties';
 
 interface LoadViewParams<T extends object> {
   view: FullyDefinedView<T>;
   client: Client;
   logger: Logger;
+  initialize?: boolean;
 }
 
 /**
@@ -17,7 +18,7 @@ interface LoadViewParams<T extends object> {
  * @see ElasticRepository
  *
  * */
-export const loadView = async <T extends object>({ view, client, logger }: LoadViewParams<T>) => {
+export const loadView = async <T extends object>({ view, client, logger, initialize }: LoadViewParams<T>) => {
   const config: ViewConfig<T> = {
     ...view,
     mappings: {
@@ -25,5 +26,11 @@ export const loadView = async <T extends object>({ view, client, logger }: LoadV
     },
   };
 
-  return new ElasticRepository(client, config, logger);
+  const elasticRepository = new ElasticRepository(client, config, logger);
+
+  if (initialize) {
+    await elasticRepository.initialize();
+  }
+
+  return elasticRepository;
 };

@@ -7,6 +7,7 @@ import { ElasticRepository } from './elasticSearch/elasticRepository/ElasticRepo
 export interface TypedElasticConfig {
   clientOptions: ClientOptions;
   views: Constructor[];
+  initializeViews?: boolean;
 }
 
 export interface TypedElastic {
@@ -14,13 +15,17 @@ export interface TypedElastic {
   getRepository: <T extends object>(view: Constructor<T>) => ElasticRepository<T>;
 }
 
-export const create = async ({ clientOptions, views = [] }: TypedElasticConfig): Promise<TypedElastic> => {
+export const create = async ({
+  clientOptions,
+  views = [],
+  initializeViews = true,
+}: TypedElasticConfig): Promise<TypedElastic> => {
   const logger = createLogger();
 
   const client = new Client(clientOptions);
   await client.ping();
 
-  const { repositoriesStore } = await loadViews({ views, client, logger });
+  const { repositoriesStore } = await loadViews({ views, client, logger, initialize: initializeViews });
 
   return {
     client,

@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-classes-per-file
 import 'reflect-metadata';
 import { create } from './typedElastic';
 import { View } from './decorators/view';

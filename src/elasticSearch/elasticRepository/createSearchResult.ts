@@ -18,12 +18,13 @@ export const createSearchResult = <T>(response: ApiResponse): SearchResults<T> =
           sort.push(id);
         }
 
-        hitData[hit._source.id] = {
-          score: hit._score,
-          sort,
+        return {
+          ...hitData,
+          [hit._source.id]: {
+            score: hit._score,
+            sort,
+          },
         };
-
-        return hitData;
       }, {}),
       shards,
     },

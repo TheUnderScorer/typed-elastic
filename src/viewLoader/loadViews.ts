@@ -4,7 +4,7 @@ import { Client } from '@elastic/elasticsearch';
 import { loadView } from './loadView';
 import { Logger } from '../logger/types';
 import { Constructor } from '../common/types';
-import { ElasticRepository } from '../elasticSearch/elasticRepository/ElasticRepository';
+import { ElasticRepository } from '..';
 import { createFullyDefinedView } from './fullyDefinedView';
 
 interface LoadViewsParams {

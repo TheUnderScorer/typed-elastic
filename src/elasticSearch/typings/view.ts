@@ -49,8 +49,8 @@ export type ElasticTokenizer = {
   token_chars?: string[];
 };
 
-export interface ViewConfig<Value extends object> extends Omit<ViewMetadata<Value>, 'constructor'> {
-  mappings: ViewMapping<Value>;
+export interface ViewConfig<Entity extends object> extends Omit<ViewMetadata<Entity>, 'constructor'> {
+  mappings: ViewMapping<Entity>;
   settings?: {
     analysis?: {
       analyzer?: Record<string, ElasiticAnalyzer>;

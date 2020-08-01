@@ -9,6 +9,9 @@ export interface ViewMetadata<T extends object = object> {
   idField?: keyof T;
   refresh: Index['refresh'];
   versionField?: keyof T;
+  createdAtField?: keyof T;
+  updatedAtField?: keyof T;
+  idStrategy?: 'uuid' | 'manual';
 }
 
 /**

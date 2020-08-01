@@ -1,11 +1,11 @@
 import { viewMetadataStore } from '../metadata/viewMetadataStore';
 import { fieldMetadataGetters } from '../metadata/fieldMetadataStore';
 import { Client } from '@elastic/elasticsearch';
-import { FullyDefinedView } from '../metadata/typings/viewMetadata';
 import { loadView } from './loadView';
 import { Logger } from '../logger/types';
 import { Constructor } from '../common/types';
 import { ElasticRepository } from '../elasticSearch/elasticRepository/ElasticRepository';
+import { createFullyDefinedView } from './fullyDefinedView';
 
 interface LoadViewsParams {
   views: Constructor[];
@@ -29,12 +29,7 @@ export const loadViews = async ({ views, client, logger }: LoadViewsParams) => {
       );
     }
 
-    const view: FullyDefinedView = {
-      ...metadata,
-      fields,
-      idField: metadata.idField ?? fields.find((field) => field.isId)?.propertyKey,
-      versionField: metadata.versionField ?? fields.find((field) => field.isVersion)?.propertyKey,
-    };
+    const view = createFullyDefinedView(metadata, fields);
 
     const repository = await loadView({ view, client, logger });
 

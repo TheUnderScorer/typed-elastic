@@ -37,11 +37,11 @@ export const loadViews = async ({ views, client, logger }: LoadViewsParams) => {
   });
 
   const result = await Promise.all(promises);
-  const store = new Map<Constructor, ElasticRepository<any>>();
+  const repositoriesStore = new Map<Constructor, ElasticRepository<any>>();
 
   result.forEach(({ repository, entity }) => {
-    store.set(entity.constructor, repository);
+    repositoriesStore.set(entity.constructor, repository);
   });
 
-  return { repositoriesStore: store };
+  return { repositoriesStore };
 };

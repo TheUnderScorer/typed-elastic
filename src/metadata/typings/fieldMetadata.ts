@@ -1,6 +1,11 @@
 import { DataType } from '../../elasticSearch/typings/view';
 import { Constructor } from '../../common/types';
 
+export interface FieldMappers {
+  toEsValue: (value: any) => any;
+  fromEsValue: (value: any) => any;
+}
+
 export interface FieldMetadata<T extends object = object> {
   propertyKey: keyof T;
   type: EntityPropertyType;
@@ -15,6 +20,7 @@ export interface FieldMetadata<T extends object = object> {
   normalizer?: string;
   docValues?: boolean;
   searchAnalyzer?: string;
+  mappers?: FieldMappers;
 }
 
 export interface FieldConfig<T extends object = object> extends Omit<Partial<FieldMetadata<T>>, 'targetConstructor'> {

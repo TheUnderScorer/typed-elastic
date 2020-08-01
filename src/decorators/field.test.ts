@@ -15,7 +15,7 @@ describe('Field decorator', () => {
       test!: string;
     }
 
-    const [field] = fieldMetadataGetters.getByConstructor(Test);
+    const [field] = fieldMetadataGetters.getByView(Test);
     expect(field.type).toEqual(String);
   });
 
@@ -28,7 +28,7 @@ describe('Field decorator', () => {
       test!: string;
     }
 
-    const [field] = fieldMetadataGetters.getByConstructor(Test);
+    const [field] = fieldMetadataGetters.getByView(Test);
     expect(field.type).toEqual(type);
   });
 });

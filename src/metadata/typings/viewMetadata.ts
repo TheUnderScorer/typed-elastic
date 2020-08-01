@@ -6,12 +6,13 @@ export interface ViewMetadata<T extends object = object> {
   index: string;
   constructor: Constructor<T>;
   versionType: Index['version_type'];
-  idField?: keyof T;
+  idField?: string;
   refresh: Index['refresh'];
-  versionField?: keyof T;
-  createdAtField?: keyof T;
-  updatedAtField?: keyof T;
+  versionField?: string;
+  createdAtField?: string;
+  updatedAtField?: string;
   idStrategy?: 'uuid' | 'manual';
+  extends?: Constructor;
 }
 
 /**

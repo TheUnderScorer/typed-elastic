@@ -21,7 +21,7 @@ export const loadView = async <T extends object>({ view, client, logger }: LoadV
   const config: ViewConfig<T> = {
     ...view,
     mappings: {
-      properties: fieldsToProperties(view.fields),
+      properties: fieldsToProperties(view.fields, view),
     },
   };
 

@@ -2,7 +2,7 @@ import { Client, ClientOptions } from '@elastic/elasticsearch';
 import { loadViews } from './viewLoader/loadViews';
 import { createLogger } from './logger/logger';
 import { Constructor } from './common/types';
-import { ElasticRepository } from './elasticSearch/ElasticRepository';
+import { ElasticRepository } from './elasticSearch/elasticRepository/ElasticRepository';
 
 export interface TypedElasticConfig {
   clientOptions: ClientOptions;

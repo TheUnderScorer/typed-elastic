@@ -1,14 +1,8 @@
-import { Pagination } from ".";
-
-export interface SearchResults<T> {
-  metadata: {
-    total: number;
-  };
-  items: T[];
-}
+import { Pagination } from '.';
+import { Nullable } from '../../common/types';
 
 export interface SearchParams {
-  pagination?: Pagination | null;
+  pagination?: Nullable<Pagination>;
 }
 
 export type WildcardQuery = {
@@ -16,6 +10,7 @@ export type WildcardQuery = {
   boost?: number;
   rewrite?: string;
 };
+
 export type FieldQuery = Record<
   string,
   | number
@@ -40,20 +35,20 @@ export type RangeQuery = Record<
 export type GeoShapeQuery = Record<
   string,
   {
-    relation: "WITHIN" | "CONTAINS" | "DISJOINT" | "INTERSECTS";
+    relation: 'WITHIN' | 'CONTAINS' | 'DISJOINT' | 'INTERSECTS';
     shape: {
       coordinates: number[] | number[][];
       radius?: number;
       type:
-        | "point"
-        | "linestring"
-        | "polygon"
-        | "multipoint"
-        | "multilinestring"
-        | "multipolygon"
-        | "geometrycollection"
-        | "envelope"
-        | "circle";
+        | 'point'
+        | 'linestring'
+        | 'polygon'
+        | 'multipoint'
+        | 'multilinestring'
+        | 'multipolygon'
+        | 'geometrycollection'
+        | 'envelope'
+        | 'circle';
     };
   }
 >;
@@ -79,7 +74,7 @@ export interface Query extends QueryParams {
     should?: QueryParams[] | QueryParams;
     should_not?: QueryParams[] | QueryParams;
     filter?: {
-      bool: Query["bool"];
+      bool: Query['bool'];
     };
   };
   query_string?: {

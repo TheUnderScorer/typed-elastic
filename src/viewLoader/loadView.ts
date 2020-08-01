@@ -1,8 +1,9 @@
 import { FullyDefinedView } from '../metadata/typings/viewMetadata';
 import { Client } from '@elastic/elasticsearch';
 import { Logger } from '../logger/types';
-import { ViewConfig, ViewProperties } from '../elasticSearch/typings/view';
-import { ElasticRepository } from '../elasticSearch/ElasticRepository';
+import { ViewConfig } from '../elasticSearch/typings/view';
+import { ElasticRepository } from '../elasticSearch/elasticRepository/ElasticRepository';
+import { ViewProperties } from '../elasticSearch/typings/fields';
 
 interface LoadViewParams<T extends object> {
   view: FullyDefinedView<T>;

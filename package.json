@@ -8,7 +8,8 @@
   "scripts": {
     "test": "jest --runInBand",
     "test:ci": "jest --runInBand --ci",
-    "lint": "eslint -c ./eslint.json --ext .ts ./",
+    "lint": "eslint --ext .ts ./",
+    "lint:fix": "eslint --ext .ts --fix ./",
     "build": "tsc",
     "semantic-release": "semantic-release"
   },

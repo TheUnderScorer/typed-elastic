@@ -29,7 +29,10 @@
     "unicorn/filename-case": [
       "error",
       {
-        "case": "kebabCase"
+        "cases": {
+          "camelCase": true,
+          "pascalCase": true
+        }
       }
     ],
     "no-unused-vars": ["error", { "argsIgnorePattern": "^_", "ignoreRestSiblings": true }],

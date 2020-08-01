@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-classes-per-file
 import { View } from './view';
 import { viewMetadataStore } from '../metadata/viewMetadataStore';
 

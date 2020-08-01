@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-classes-per-file
 import 'reflect-metadata';
 import { fieldMetadataGetters, fieldMetadataStore } from '../metadata/fieldMetadataStore';
 import { viewMetadataStore } from '../metadata/viewMetadataStore';

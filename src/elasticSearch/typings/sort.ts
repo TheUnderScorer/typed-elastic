@@ -1,6 +1,6 @@
-export type OrderDirection = "asc" | "desc";
+export type OrderDirection = 'asc' | 'desc';
 
-export type OrderMode = "min" | "max" | "sum" | "avg";
+export type OrderMode = 'min' | 'max' | 'sum' | 'avg';
 
 export type OrderSettings = {
   order: OrderDirection;

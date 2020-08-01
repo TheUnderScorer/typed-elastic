@@ -9,10 +9,23 @@ export interface FieldMetadata<T extends object = object> {
   isCreatedAt?: boolean;
   isUpdatedAt?: boolean;
   isVersion?: boolean;
+  idStrategy?: 'uuid' | 'manual';
+  strategy?: string;
+  analyzer?: string;
+  normalizer?: string;
+  docValues?: boolean;
+  searchAnalyzer?: string;
 }
 
 export interface FieldConfig<T extends object = object> extends Omit<Partial<FieldMetadata<T>>, 'targetConstructor'> {
   type?: EntityPropertyType;
 }
 
-export type EntityPropertyType = DataType | string | Function;
+export type EntityPropertyType =
+  | DataType
+  | string
+  | Function
+  | Constructor
+  | typeof String
+  | typeof Object
+  | typeof Number;

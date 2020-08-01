@@ -3,7 +3,7 @@ import { Client } from '@elastic/elasticsearch';
 import { Logger } from '../logger/types';
 import { ViewConfig } from '../elasticSearch/typings/view';
 import { ElasticRepository } from '../elasticSearch/elasticRepository/ElasticRepository';
-import { ViewProperties } from '../elasticSearch/typings/fields';
+import { fieldsToProperties } from './fieldsToProperties';
 
 interface LoadViewParams<T extends object> {
   view: FullyDefinedView<T>;
@@ -21,11 +21,7 @@ export const loadView = async <T extends object>({ view, client, logger }: LoadV
   const config: ViewConfig<T> = {
     ...view,
     mappings: {
-      properties: view.fields.reduce<ViewProperties>((properties, field) => {
-        return {
-          type: field.type,
-        };
-      }, {}),
+      properties: fieldsToProperties(view.fields),
     },
   };
 

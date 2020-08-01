@@ -76,13 +76,23 @@ export class ElasticRepository<Entity extends Record<string, any>> {
   }
 
   public async index(entity: Entity): Promise<any> {
+    const parsedEntity: Entity = { ...entity };
+
+    if (this.config.createdAtField) {
+      (parsedEntity as any)[this.config.createdAtField] = new Date().toISOString();
+    }
+
+    if (this.config.updatedAtField) {
+      (parsedEntity as any)[this.config.updatedAtField] = new Date().toISOString();
+    }
+
     try {
       const result = await this.client.index({
         index: this.config.index,
         id: entity[this.config.idField!],
         version_type: this.config.versionType,
         version: entity[this.config.versionField!],
-        body: entity,
+        body: parsedEntity,
         refresh: this.config.refresh,
         pretty: true,
       });
@@ -91,7 +101,7 @@ export class ElasticRepository<Entity extends Record<string, any>> {
 
       this.events.emit(ElasticRepositoryEvents.index, result, entity);
 
-      return entity;
+      return parsedEntity;
     } catch (e) {
       this.logger.error('Index error', e);
 

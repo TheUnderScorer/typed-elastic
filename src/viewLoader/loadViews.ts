@@ -12,9 +12,10 @@ interface LoadViewsParams {
   views: Constructor[];
   client: Client;
   logger: Logger;
+  initialize?: boolean;
 }
 
-export const loadViews = async ({ views, client, logger }: LoadViewsParams) => {
+export const loadViews = async ({ views, client, logger, initialize }: LoadViewsParams) => {
   const promises = views.map(async (viewConstructor) => {
     const metadata = viewMetadataStore.get(viewConstructor);
 
@@ -32,7 +33,7 @@ export const loadViews = async ({ views, client, logger }: LoadViewsParams) => {
 
     const view = createFullyDefinedView(metadata, fields);
 
-    const repository = await loadView({ view, client, logger });
+    const repository = await loadView({ view, client, logger, initialize });
 
     return { repository, entity: view };
   });

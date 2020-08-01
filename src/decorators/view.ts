@@ -1,11 +1,12 @@
-import { EntityMetadata, EntityMetadataConfig } from '../metadata/typings/entityMetadata';
-import { entityMetadataStore } from '../metadata/entityMetadataStore';
+import { ViewMetadata, ViewMetadataConfig } from '../metadata/typings/viewMetadata';
+import { viewMetadataStore } from '../metadata/viewMetadataStore';
+import { Constructor } from '../common/types';
+import { createViewMetadata } from '../metadata/createViewMetadata';
 
-export const View = ({ index }: EntityMetadataConfig = {}): ClassDecorator => (target) => {
-  const metadata: EntityMetadata = {
-    index: index ?? target.name,
-    constructor: target,
-  };
+export const View = (config: ViewMetadataConfig = {}) => <T extends object>(target: Constructor<T>) => {
+  const metadata: ViewMetadata = createViewMetadata(config, target);
 
-  entityMetadataStore.set(target, metadata);
+  viewMetadataStore.set(target, metadata);
+
+  return target;
 };

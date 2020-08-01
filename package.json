@@ -41,7 +41,8 @@
     "typescript": "3.9.7"
   },
   "dependencies": {
-    "elastic-builder": "2.7.1"
+    "elastic-builder": "2.7.1",
+    "winston": "^3.3.3"
   },
   "jest": {
     "preset": "ts-jest",

@@ -1,12 +1,17 @@
 import { DataType } from '../../elasticSearch/typings/view';
+import { Constructor } from '../../common/types';
 
-export interface FieldMetadata {
-  propertyKey: string | symbol;
+export interface FieldMetadata<T extends object = object> {
+  propertyKey: keyof T;
   type: EntityPropertyType;
-  targetConstructor: Function;
+  targetConstructor: Constructor<T>;
+  isId?: boolean;
+  isCreatedAt?: boolean;
+  isUpdatedAt?: boolean;
+  isVersion?: boolean;
 }
 
-export interface FieldConfig {
+export interface FieldConfig<T extends object = object> extends Omit<Partial<FieldMetadata<T>>, 'targetConstructor'> {
   type?: EntityPropertyType;
 }
 

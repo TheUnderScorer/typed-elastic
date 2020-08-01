@@ -1,18 +1,13 @@
 import { FieldConfig, FieldMetadata } from '../metadata/typings/fieldMetadata';
 import { fieldMetadataStore } from '../metadata/fieldMetadataStore';
+import { createFieldMetadata } from '../metadata/createFieldMetadata';
 
-export const Field = (config: FieldConfig = {}): PropertyDecorator => (target, propertyKey) => {
-  const type = config.type ?? Reflect?.getMetadata('design:type', target, propertyKey);
-
-  if (!type) {
-    throw new TypeError(`Unable to determine field type for field ${propertyKey.toString()}`);
-  }
-
-  const metadata: FieldMetadata = {
+export const Field = (config: FieldConfig = {}) => (target: object, propertyKey: string) => {
+  const metadata: FieldMetadata = createFieldMetadata<any>({
     propertyKey,
-    targetConstructor: target.constructor,
-    type,
-  };
+    target,
+    config,
+  });
 
   fieldMetadataStore.add(metadata);
 };

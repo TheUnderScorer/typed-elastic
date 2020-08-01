@@ -6,6 +6,7 @@ import { Logger } from '../logger/types';
 import { Constructor } from '../common/types';
 import { ElasticRepository } from '..';
 import { createFullyDefinedView } from './fullyDefinedView';
+import { NoViewMetadataDefined } from '../errors/NoViewMetadataDefined';
 
 interface LoadViewsParams {
   views: Constructor[];
@@ -18,7 +19,7 @@ export const loadViews = async ({ views, client, logger }: LoadViewsParams) => {
     const metadata = viewMetadataStore.get(viewConstructor);
 
     if (!metadata) {
-      throw new Error(`No metadata found for view ${viewConstructor.name}. Did you forgot to add @View() decorator?`);
+      throw new NoViewMetadataDefined(viewConstructor);
     }
 
     const fields = fieldMetadataGetters.getByView(viewConstructor);

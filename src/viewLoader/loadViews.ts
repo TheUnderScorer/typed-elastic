@@ -5,7 +5,7 @@ import { FullyDefinedView } from '../metadata/typings/viewMetadata';
 import { loadView } from './loadView';
 import { Logger } from '../logger/types';
 import { Constructor } from '../common/types';
-import { ElasticRepository } from '../elasticSearch/ElasticRepository';
+import { ElasticRepository } from '../elasticSearch/elasticRepository/ElasticRepository';
 
 interface LoadViewsParams {
   views: Constructor[];

@@ -1,8 +1,8 @@
-import { Query, SearchParams, SearchResults } from './query';
+import { Query, SearchParams } from './query';
 import { OrderParams } from './sort';
 import { Aggs } from './aggregation';
-import { Maybe } from '../../common/types';
 import { ViewMetadata } from '../../metadata/typings/viewMetadata';
+import { ViewMapping } from './fields';
 
 export type DataType =
   | 'text'
@@ -35,17 +35,6 @@ export type DataType =
   | 'annotated-text'
   | 'shape';
 
-export type FieldMapping = {
-  type?: DataType;
-  strategy?: string;
-  properties?: Record<string, FieldMapping>;
-  fields?: Record<string, FieldMapping>;
-  analyzer?: string;
-  normalizer?: string;
-  doc_values?: boolean;
-  search_analyzer?: string;
-};
-
 export type ElasiticAnalyzer = {
   type?: string;
   tokenizer?: string;
@@ -58,14 +47,6 @@ export type ElasticTokenizer = {
   min_gram?: number;
   max_gram?: number;
   token_chars?: string[];
-};
-
-export type ViewProperties<Entity extends object = object> = {
-  [Key in keyof Entity]?: FieldMapping;
-};
-
-export type ViewMapping<Entity extends object = object> = {
-  properties: ViewProperties<Entity>;
 };
 
 export interface ViewConfig<Value extends object> extends Omit<ViewMetadata<Value>, 'constructor'> {
@@ -82,32 +63,15 @@ export interface ViewConfig<Value extends object> extends Omit<ViewMetadata<Valu
 
 export interface SearchByParams extends SearchParams {
   query?: Query;
-  filter?: Query;
   order?: OrderParams | null;
-}
-
-export interface AggregationParams {
-  aggs: Aggs;
-}
-
-export interface FindOneParams {
-  id: string;
-  order?: Maybe<OrderParams>;
+  /**
+   * Whenever ES should cap total results at 10000 max or show exact count.
+   * */
+  trackTotalHits?: boolean;
 }
 
 export interface FindManyParams {
   ids: string[];
-}
-
-export interface ViewInterface<T> {
-  initialize: () => Promise<void>;
-  index: (entity: T) => Promise<void>;
-  delete: (entity: T) => Promise<void>;
-  search: (params: SearchParams) => Promise<SearchResults<T>>;
-  findOne: (params: FindOneParams) => Promise<T | null>;
-  findMany: (params: FindManyParams) => Promise<SearchResults<T>>;
-  searchBy: (params: SearchByParams) => Promise<SearchResults<T>>;
-  drop: () => Promise<void>;
 }
 
 export type EsbQueryResult = {

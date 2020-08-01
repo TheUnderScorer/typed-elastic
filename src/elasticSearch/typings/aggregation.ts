@@ -20,3 +20,7 @@ export type FilterAggregation<ValueType = string> = {
 export type FilterAggregationResult<ValueType = string> = {
   [key: string]: FilterAggregation<ValueType>;
 };
+
+export interface AggregationParams {
+  aggs: Aggs;
+}

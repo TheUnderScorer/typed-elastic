@@ -21,7 +21,7 @@ export const loadViews = async ({ views, client, logger }: LoadViewsParams) => {
       throw new Error(`No metadata found for view ${viewConstructor.name}. Did you forgot to add @View() decorator?`);
     }
 
-    const fields = fieldMetadataGetters.getByConstructor(viewConstructor);
+    const fields = fieldMetadataGetters.getByView(viewConstructor);
 
     if (!fields.length) {
       throw new Error(

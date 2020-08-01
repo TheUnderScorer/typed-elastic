@@ -1,11 +1,15 @@
 import 'reflect-metadata';
 import { fieldMetadataGetters, fieldMetadataStore } from '../metadata/fieldMetadataStore';
 import { viewMetadataStore } from '../metadata/viewMetadataStore';
-import { Field, View } from '..';
+import { CreatedAtField, Field, IdField, UpdatedAtField, View } from '..';
 import { fieldsToProperties } from './fieldsToProperties';
+import { ViewMetadata } from '../metadata/typings/viewMetadata';
 
 @View()
 class ViewA {
+  @IdField()
+  id!: string;
+
   @Field()
   name!: string;
 
@@ -21,6 +25,12 @@ class ViewA {
     type: 'object',
   })
   self!: ViewA;
+
+  @CreatedAtField()
+  createdAt!: Date;
+
+  @UpdatedAtField()
+  updatedAt!: Date;
 }
 
 @View()
@@ -46,6 +56,12 @@ class ViewC {
   viewB!: ViewB;
 }
 
+@View()
+class ViewExtension extends ViewC {
+  @Field()
+  isExtension!: boolean;
+}
+
 describe('Fields to properties', () => {
   afterAll(() => {
     fieldMetadataStore.clear();
@@ -53,7 +69,10 @@ describe('Fields to properties', () => {
   });
 
   it('should map fields to ES properties', async () => {
-    const mappings = fieldsToProperties(fieldMetadataGetters.getByConstructor(ViewC));
+    const mappings = fieldsToProperties<ViewC>(
+      fieldMetadataGetters.getByView(ViewC),
+      viewMetadataStore.get(ViewC)! as ViewMetadata<ViewC>,
+    );
     expect(mappings).toMatchInlineSnapshot(`
       Object {
         "value": Object {
@@ -79,6 +98,15 @@ describe('Fields to properties', () => {
               "strategy": undefined,
               "type": "float",
             },
+            "createdAt": Object {
+              "analyzer": undefined,
+              "doc_values": undefined,
+              "normalizer": undefined,
+              "properties": undefined,
+              "search_analyzer": undefined,
+              "strategy": undefined,
+              "type": "date",
+            },
             "data": Object {
               "analyzer": undefined,
               "doc_values": undefined,
@@ -87,6 +115,15 @@ describe('Fields to properties', () => {
               "search_analyzer": undefined,
               "strategy": undefined,
               "type": "object",
+            },
+            "id": Object {
+              "analyzer": undefined,
+              "doc_values": undefined,
+              "normalizer": undefined,
+              "properties": undefined,
+              "search_analyzer": undefined,
+              "strategy": undefined,
+              "type": "text",
             },
             "name": Object {
               "analyzer": undefined,
@@ -105,6 +142,15 @@ describe('Fields to properties', () => {
               "search_analyzer": undefined,
               "strategy": undefined,
               "type": "object",
+            },
+            "updatedAt": Object {
+              "analyzer": undefined,
+              "doc_values": undefined,
+              "normalizer": undefined,
+              "properties": undefined,
+              "search_analyzer": undefined,
+              "strategy": undefined,
+              "type": "date",
             },
           },
           "search_analyzer": undefined,
@@ -139,6 +185,15 @@ describe('Fields to properties', () => {
                   "strategy": undefined,
                   "type": "float",
                 },
+                "createdAt": Object {
+                  "analyzer": undefined,
+                  "doc_values": undefined,
+                  "normalizer": undefined,
+                  "properties": undefined,
+                  "search_analyzer": undefined,
+                  "strategy": undefined,
+                  "type": "date",
+                },
                 "data": Object {
                   "analyzer": undefined,
                   "doc_values": undefined,
@@ -147,6 +202,15 @@ describe('Fields to properties', () => {
                   "search_analyzer": undefined,
                   "strategy": undefined,
                   "type": "object",
+                },
+                "id": Object {
+                  "analyzer": undefined,
+                  "doc_values": undefined,
+                  "normalizer": undefined,
+                  "properties": undefined,
+                  "search_analyzer": undefined,
+                  "strategy": undefined,
+                  "type": "text",
                 },
                 "name": Object {
                   "analyzer": undefined,
@@ -165,6 +229,210 @@ describe('Fields to properties', () => {
                   "search_analyzer": undefined,
                   "strategy": undefined,
                   "type": "object",
+                },
+                "updatedAt": Object {
+                  "analyzer": undefined,
+                  "doc_values": undefined,
+                  "normalizer": undefined,
+                  "properties": undefined,
+                  "search_analyzer": undefined,
+                  "strategy": undefined,
+                  "type": "date",
+                },
+              },
+              "search_analyzer": undefined,
+              "strategy": undefined,
+              "type": undefined,
+            },
+          },
+          "search_analyzer": undefined,
+          "strategy": undefined,
+          "type": undefined,
+        },
+      }
+    `);
+  });
+
+  it('should map fields to ES properties for extended object', async () => {
+    const mappings = fieldsToProperties<ViewExtension>(
+      fieldMetadataGetters.getByView(ViewExtension),
+      viewMetadataStore.get(ViewExtension)! as ViewMetadata<ViewExtension>,
+    );
+
+    expect(mappings).toMatchInlineSnapshot(`
+      Object {
+        "isExtension": Object {
+          "analyzer": undefined,
+          "doc_values": undefined,
+          "normalizer": undefined,
+          "properties": undefined,
+          "search_analyzer": undefined,
+          "strategy": undefined,
+          "type": "boolean",
+        },
+        "value": Object {
+          "analyzer": undefined,
+          "doc_values": undefined,
+          "normalizer": undefined,
+          "properties": undefined,
+          "search_analyzer": undefined,
+          "strategy": undefined,
+          "type": "text",
+        },
+        "viewA": Object {
+          "analyzer": undefined,
+          "doc_values": undefined,
+          "normalizer": undefined,
+          "properties": Object {
+            "count": Object {
+              "analyzer": undefined,
+              "doc_values": undefined,
+              "normalizer": undefined,
+              "properties": undefined,
+              "search_analyzer": undefined,
+              "strategy": undefined,
+              "type": "float",
+            },
+            "createdAt": Object {
+              "analyzer": undefined,
+              "doc_values": undefined,
+              "normalizer": undefined,
+              "properties": undefined,
+              "search_analyzer": undefined,
+              "strategy": undefined,
+              "type": "date",
+            },
+            "data": Object {
+              "analyzer": undefined,
+              "doc_values": undefined,
+              "normalizer": undefined,
+              "properties": undefined,
+              "search_analyzer": undefined,
+              "strategy": undefined,
+              "type": "object",
+            },
+            "id": Object {
+              "analyzer": undefined,
+              "doc_values": undefined,
+              "normalizer": undefined,
+              "properties": undefined,
+              "search_analyzer": undefined,
+              "strategy": undefined,
+              "type": "text",
+            },
+            "name": Object {
+              "analyzer": undefined,
+              "doc_values": undefined,
+              "normalizer": undefined,
+              "properties": undefined,
+              "search_analyzer": undefined,
+              "strategy": undefined,
+              "type": "text",
+            },
+            "self": Object {
+              "analyzer": undefined,
+              "doc_values": undefined,
+              "normalizer": undefined,
+              "properties": undefined,
+              "search_analyzer": undefined,
+              "strategy": undefined,
+              "type": "object",
+            },
+            "updatedAt": Object {
+              "analyzer": undefined,
+              "doc_values": undefined,
+              "normalizer": undefined,
+              "properties": undefined,
+              "search_analyzer": undefined,
+              "strategy": undefined,
+              "type": "date",
+            },
+          },
+          "search_analyzer": undefined,
+          "strategy": undefined,
+          "type": undefined,
+        },
+        "viewB": Object {
+          "analyzer": undefined,
+          "doc_values": undefined,
+          "normalizer": undefined,
+          "properties": Object {
+            "someField": Object {
+              "analyzer": undefined,
+              "doc_values": undefined,
+              "normalizer": undefined,
+              "properties": undefined,
+              "search_analyzer": undefined,
+              "strategy": undefined,
+              "type": "text",
+            },
+            "viewA": Object {
+              "analyzer": undefined,
+              "doc_values": undefined,
+              "normalizer": undefined,
+              "properties": Object {
+                "count": Object {
+                  "analyzer": undefined,
+                  "doc_values": undefined,
+                  "normalizer": undefined,
+                  "properties": undefined,
+                  "search_analyzer": undefined,
+                  "strategy": undefined,
+                  "type": "float",
+                },
+                "createdAt": Object {
+                  "analyzer": undefined,
+                  "doc_values": undefined,
+                  "normalizer": undefined,
+                  "properties": undefined,
+                  "search_analyzer": undefined,
+                  "strategy": undefined,
+                  "type": "date",
+                },
+                "data": Object {
+                  "analyzer": undefined,
+                  "doc_values": undefined,
+                  "normalizer": undefined,
+                  "properties": undefined,
+                  "search_analyzer": undefined,
+                  "strategy": undefined,
+                  "type": "object",
+                },
+                "id": Object {
+                  "analyzer": undefined,
+                  "doc_values": undefined,
+                  "normalizer": undefined,
+                  "properties": undefined,
+                  "search_analyzer": undefined,
+                  "strategy": undefined,
+                  "type": "text",
+                },
+                "name": Object {
+                  "analyzer": undefined,
+                  "doc_values": undefined,
+                  "normalizer": undefined,
+                  "properties": undefined,
+                  "search_analyzer": undefined,
+                  "strategy": undefined,
+                  "type": "text",
+                },
+                "self": Object {
+                  "analyzer": undefined,
+                  "doc_values": undefined,
+                  "normalizer": undefined,
+                  "properties": undefined,
+                  "search_analyzer": undefined,
+                  "strategy": undefined,
+                  "type": "object",
+                },
+                "updatedAt": Object {
+                  "analyzer": undefined,
+                  "doc_values": undefined,
+                  "normalizer": undefined,
+                  "properties": undefined,
+                  "search_analyzer": undefined,
+                  "strategy": undefined,
+                  "type": "date",
                 },
               },
               "search_analyzer": undefined,

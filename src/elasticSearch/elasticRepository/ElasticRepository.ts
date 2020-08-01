@@ -12,7 +12,7 @@ export class ElasticRepository<Entity extends Record<string, any>> {
 
   public constructor(
     private readonly client: Client,
-    private readonly config: ViewConfig<Entity>,
+    public readonly config: Readonly<ViewConfig<Entity>>,
     private readonly logger: Logger,
   ) {}
 

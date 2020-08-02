@@ -78,7 +78,7 @@ describe('Typed Elastic', () => {
           },
         ],
         "idField": "id",
-        "index": "Test",
+        "index": "test",
         "mappings": Object {
           "properties": Object {
             "createdAt": Object {

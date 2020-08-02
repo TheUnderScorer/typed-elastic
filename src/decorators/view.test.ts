@@ -12,7 +12,7 @@ describe('View decorator', () => {
     class Test {}
 
     const entity = viewMetadataStore.get(Test)!;
-    expect(entity.index).toEqual('Test');
+    expect(entity.index).toEqual('test');
     expect(entity.constructor).toEqual(Test);
   });
 
@@ -23,7 +23,7 @@ describe('View decorator', () => {
     class Test {}
 
     const entity = viewMetadataStore.get(Test)!;
-    expect(entity.index).toEqual('TestIndex');
+    expect(entity.index).toEqual('testindex');
     expect(entity.constructor).toEqual(Test);
   });
 });

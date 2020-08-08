@@ -22,4 +22,5 @@ export interface FullyDefinedView<T extends object = object> extends ViewMetadat
   fields: FieldMetadata<T>[];
 }
 
-export interface ViewMetadataConfig<T extends object = object> extends Omit<Partial<ViewMetadata<T>>, 'constructor'> {}
+export interface ViewMetadataConfig<T extends object = object>
+  extends Omit<Partial<ViewMetadata<T>>, 'constructor' | 'extends'> {}
